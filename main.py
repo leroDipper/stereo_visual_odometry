@@ -47,7 +47,7 @@ if __name__ == "__main__":
     rectifier = StereoRectifier(K_left, K_right, D_left, D_right, R, T, image_size)
     
     pipeline = Pipeline(steps=[
-        FeatureMatchingStep(extractor, images, rectifier, top_k=1500, max_images=100)
+        FeatureMatchingStep(extractor, images, rectifier, top_k=1000, max_images=50)
     ])
 
     final_data = pipeline.run(data={})

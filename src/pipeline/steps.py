@@ -117,6 +117,7 @@ class FeatureMatchingStep(PipelineStep):
             current_2d_points = np.array(current_2d_points)
             current_feature_indices = np.array(current_feature_indices)
 
+
             # Visual odometry with previous frame
             if (previous_left is not None and previous_3d_points is not None and 
                 previous_descriptors is not None and previous_keypoints is not None):
