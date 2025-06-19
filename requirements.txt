@@ -1,0 +1,26 @@
+# Core dependencies
+numpy>=1.21.0
+opencv-python>=4.5.0
+scipy>=1.7.0
+matplotlib>=3.3.0
+
+# Deep learning framework for XFeat
+torch>=1.9.0
+torchvision>=0.10.0
+
+# XFeat feature extractor (installed via torch.hub)
+# Note: XFeat will be automatically downloaded from PyTorch Hub on first run
+
+# Optional: CUDA support (uncomment if using GPU)
+# torch>=1.9.0+cu111
+# torchvision>=0.10.0+cu111
+
+# Development and testing (optional)
+pytest>=6.0.0
+black>=21.0.0
+flake8>=3.9.0
+
+# Additional utilities
+tqdm>=4.60.0  # Progress bars (if needed for batch processing)
+pillow>=8.0.0  # Image handling utilities
+
