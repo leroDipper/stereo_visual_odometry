@@ -88,6 +88,20 @@ T = np.array([...])  # Translation between cameras
 ```
 
 3. **Update image paths**:
+Code is currently set to work with the developer's local dataset, uncomment the
+   paths for the dataset for users
+```python
+ # local paths for the developer: comment out the next two lines
+    left_images_path = "/home/leroy-marewangepo/Masters_Stuff/dataset-stereo/dso/cam0/images"
+    right_images_path = "/home/leroy-marewangepo/Masters_Stuff/dataset-stereo/dso/cam1/images"
+
+    # relatives paths for users: uncomment the next two lines
+    # left_images_path = "dataset-stereo/dso/cam0/images"
+    # right_images_path = "dataset-stereo/dso/cam1/images"
+
+    # If you want to use your own dataset, change the paths above to your dataset paths
+```
+or  
 ```python
 left_images_path = "path/to/cam0/images"
 right_images_path = "path/to/cam1/images"
