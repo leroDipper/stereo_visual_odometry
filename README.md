@@ -50,7 +50,7 @@ See `requirements.txt` for complete dependencies.
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd stereo-vision-pipeline
+cd stereo-visual-odometry
 ```
 
 2. Create a virtual environment:
@@ -64,13 +64,13 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. The XFeat model will be automatically downloaded from PyTorch Hub on first run.
+4. The XFeat model will be automatically downloaded from PyTorch Hub on the first run.
 
 ## Usage
 
 ### Basic Usage
 
-1. **Prepare your dataset**: Organize stereo image pairs in separate directories:
+1. **Prepare your dataset**: Organise stereo image pairs in separate directories:
 ```
 dataset/
 ├── cam0/images/  # Left camera images
@@ -187,9 +187,9 @@ Enable verbose output in PnP module:
 pnp_solver = PnP(extractor, K_left_rect, verbose=True)
 ```
 
-### Visualization Issues
+### Visualisation Issues
 
-If 3D visualization doesn't appear:
+If 3D visualisation doesn't appear:
 ```python
 # Add at the end of visualise_3d_points function
 plt.show(block=True)  # Force blocking display
@@ -199,11 +199,13 @@ plt.show(block=True)  # Force blocking display
 
 The modular design allows easy extensions:
 
+- **Trajectory plotting**: Plot camera motion
 - **Loop Closure Detection**: Add descriptor database for place recognition
 - **Bundle Adjustment**: Integrate global optimization
 - **Dense Reconstruction**: Add stereo dense matching
 - **Real-time Processing**: Implement streaming pipeline
 - **Different Cameras**: Adapt rectification for pinhole cameras
+- **Implement Photogrammetry**: Create maps for absolute localisation
 
 ## Dependencies
 
@@ -216,14 +218,13 @@ Key dependencies:
 
 ## License
 
-[Add your license information here]
+[N/A]
 
 ## Citation
 
 If you use this code in your research, please cite:
 - XFeat: Accelerated Features for Lightweight Image Matching
-- [Your paper/work if applicable]
 
 ## Contributing
 
-[Add contribution guidelines if applicable]
+[N/A]
