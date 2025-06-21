@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     rectifier = StereoRectifier(K_left, K_right, D_left, D_right, R, T, image_size)
 
-    # Get rectified camera matrices (like in your working steps.py)
+    # Get rectified camera matrices 
     K_left_rect, K_right_rect = rectifier.get_rectified_camera_matrices()
 
     frame_loader = FrameLoader(images, rectifier, max_images=50)

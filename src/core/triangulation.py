@@ -3,6 +3,18 @@ import cv2
 
 
 def triangulate_point(K_left, K_right, pt_left, pt_right, R, T):
+    """
+    Triangulate a single point from stereo image pairs.
+    Args:
+        K_left (np.ndarray): Intrinsic matrix of the left camera.
+        K_right (np.ndarray): Intrinsic matrix of the right camera.
+        pt_left (tuple): 2D point in the left image (x, y).
+        pt_right (tuple): 2D point in the right image (x, y).
+        R (np.ndarray): Rotation matrix from left to right camera.
+        T (np.ndarray): Translation vector from left to right camera.
+    Returns:
+        np.ndarray: 3D point in the world coordinate system, or None if triangulation fails.
+    """
     disparity = pt_left[0] - pt_right[0]
     
     if disparity <= 0.5 or disparity > 500:

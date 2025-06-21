@@ -13,6 +13,22 @@ class PnP:
 
     def estimate_pose(self, prev_descriptors, prev_keypoints, prev_3d_points, prev_feature_indices,
                       curr_descriptors, curr_keypoints, frame_id=None):
+        """
+        Estimate the pose using PnP with RANSAC.
+        Args:
+            prev_descriptors (np.ndarray): Descriptors from the previous frame.
+            prev_keypoints (list): Keypoints from the previous frame.
+            prev_3d_points (np.ndarray): 3D points corresponding to the previous keypoints.
+            prev_feature_indices (np.ndarray): Indices of features in the previous frame.
+            curr_descriptors (np.ndarray): Descriptors from the current frame.
+            curr_keypoints (list): Keypoints from the current frame.
+            frame_id (int, optional): Frame ID for logging purposes.
+        Returns:
+            R (np.ndarray): Rotation matrix if pose estimation is successful, None otherwise.
+            t (np.ndarray): Translation vector if pose estimation is successful, None otherwise.
+            inliers (np.ndarray): Indices of inliers if pose estimation is successful, None otherwise.
+            matched_3d_2d (tuple): Tuple of matched 3D points and 2D points if pose estimation is successful, None otherwise.
+        """
         matched_3d = []
         matched_2d = []
 
