@@ -50,7 +50,7 @@ See `requirements.txt` for complete dependencies.
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd stereo-visual-odometry
+cd stereo_visual_odometry
 ```
 
 2. Create a virtual environment:
