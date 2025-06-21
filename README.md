@@ -38,7 +38,6 @@ A modular stereo vision pipeline for 3D reconstruction and visual odometry using
 ## Requirements
 
 - Python 3.8+
-- CUDA-capable GPU (recommended for XFeat)
 - OpenCV 4.5+
 - PyTorch 1.9+
 - NumPy, SciPy, Matplotlib
@@ -180,7 +179,8 @@ Use OpenCV's fisheye calibration functions to obtain these parameters.
 
 ## Performance Notes
 
-- **GPU Acceleration**: XFeat runs significantly faster on CUDA-enabled GPUs
+- **GPU Acceleration**: XFeat runs significantly faster on CUDA-enabled GPUs but still works
+  well on CPU.
 - **Memory Usage**: Large datasets may require processing in batches
 - **Processing Speed**: ~1-2 seconds per stereo pair on modern hardware
 - **Feature Count**: Higher `top_k` values improve accuracy but increase computation time
