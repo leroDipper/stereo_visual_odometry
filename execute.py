@@ -12,8 +12,17 @@ from src.modules.pnp import PnP
 
 if __name__ == "__main__":
     # --- Calibration and dataset paths ---
-    left_images_path = "/home/leroy-marewangepo/Masters_Stuff/dataset-room1_1024/dso/cam0/images"
-    right_images_path = "/home/leroy-marewangepo/Masters_Stuff/dataset-room1_1024/dso/cam1/images"
+
+    # local paths for the developer: comment out the next two lines
+    #left_images_path = "/home/leroy-marewangepo/Masters_Stuff/dataset-stereo/dso/cam0/images"
+    #right_images_path = "/home/leroy-marewangepo/Masters_Stuff/dataset-stereo/dso/cam1/images"
+
+    # relatives paths for users: uncomment the next two lines
+    left_images_path = "dataset-stereo/dso/cam0/images"
+    right_images_path = "dataset-stereo/dso/cam1/images"
+
+    # If you want to use your own dataset, change the paths above to your dataset paths
+
     images = [left_images_path, right_images_path]
 
     K_left = np.array([[380.8104, 0, 510.2947],
