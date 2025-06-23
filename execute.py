@@ -1,6 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from src.core.feature_extractor import XFeat
-from src.utils.visualisation import visualise_matches, visualise_3d_points
 from src.core.rectification import StereoRectifier
 from src.core.outlier_removal import remove_statistical_outliers
 
@@ -9,6 +9,9 @@ from src.modules.frame_loader import FrameLoader
 from src.modules.stereo_matcher import StereoMatcher
 from src.modules.triangulator import Triangulator
 from src.modules.pnp import PnP  
+
+from src.utils.visualisation import Visualiser
+
 
 if __name__ == "__main__":
     # --- Calibration and dataset paths ---
@@ -57,10 +60,11 @@ if __name__ == "__main__":
     # Get rectified camera matrices 
     K_left_rect, K_right_rect = rectifier.get_rectified_camera_matrices()
 
-    frame_loader = FrameLoader(images, rectifier, max_images=50)
+    frame_loader = FrameLoader(images, rectifier, max_images=1000)
     stereo_matcher = StereoMatcher(extractor, K_left_rect, K_right_rect, rectifier, top_k=1000)  # Use rectified matrices
     triangulator = Triangulator(K_left_rect, K_right_rect, R, T)  # Use rectified matrices
     pnp_solver = PnP(extractor, K_left_rect)  # Use rectified matrix
+    visualiser = None  # Will be initialized with first frame
 
 
 
@@ -71,6 +75,11 @@ if __name__ == "__main__":
     previous_descriptors = None
     previous_keypoints = None
     previous_feature_indices = None
+
+    # Add cumulative pose tracking
+    cumulative_R = np.eye(3)  # Start with identity
+    cumulative_t = np.zeros(3)  # Start at origin
+
 
     all_points = []
 
@@ -87,7 +96,11 @@ if __name__ == "__main__":
         if pts_3d is None:
             continue
 
+
         all_points.extend(pts_3d)
+
+        if visualiser is None:
+             visualiser = Visualiser(left_rect, right_rect, output_left['keypoints'], output_right['keypoints'], [])
 
         # Perform PnP if we have a previous frame
         if previous_output_left is not None:
@@ -100,6 +113,15 @@ if __name__ == "__main__":
                 curr_keypoints=output_left['keypoints'],
                 frame_id=i
             )
+
+            if R is not None and t is not None:
+                # Accumulate the poses 
+                cumulative_t = cumulative_R @ t + cumulative_t
+                cumulative_R = R @ cumulative_R
+                
+                # Plot the cumulative pose
+                visualiser.trajectory_plot(cumulative_R, cumulative_t, i)
+
 
         # Update for next iteration
         previous_output_left = output_left
@@ -115,4 +137,11 @@ if __name__ == "__main__":
         all_points = np.array(all_points)
         all_points = remove_statistical_outliers(all_points)
         print(f"Triangulated {all_points.shape[0]} total 3D points")
-        visualise_3d_points(all_points)
+        #visualise_3d_points(all_points)
+
+        # Keep the trajectory plot open
+    if visualiser is not None and visualiser.fig is not None:
+        print("Trajectory plotting complete. Close the plot window to exit.")
+        plt.ioff()  # Turn off interactive mode
+        plt.show()  
+        
