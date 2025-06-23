@@ -60,7 +60,7 @@ if __name__ == "__main__":
     # Get rectified camera matrices 
     K_left_rect, K_right_rect = rectifier.get_rectified_camera_matrices()
 
-    frame_loader = FrameLoader(images, rectifier, max_images=1000)
+    frame_loader = FrameLoader(images, rectifier, max_images=50)
     stereo_matcher = StereoMatcher(extractor, K_left_rect, K_right_rect, rectifier, top_k=1000)  # Use rectified matrices
     triangulator = Triangulator(K_left_rect, K_right_rect, R, T)  # Use rectified matrices
     pnp_solver = PnP(extractor, K_left_rect)  # Use rectified matrix
