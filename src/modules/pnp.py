@@ -10,6 +10,7 @@ class PnP:
         self.extractor = extractor
         self.K_left = K_left
         self.verbose = verbose
+        
 
     def estimate_pose(self, prev_descriptors, prev_keypoints, prev_3d_points, prev_feature_indices,
                       curr_descriptors, curr_keypoints, frame_id=None):

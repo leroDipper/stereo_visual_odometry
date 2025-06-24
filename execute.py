@@ -76,11 +76,6 @@ if __name__ == "__main__":
     previous_keypoints = None
     previous_feature_indices = None
 
-    # Add cumulative pose tracking
-    cumulative_R = np.eye(3)  # Start with identity
-    cumulative_t = np.zeros(3)  # Start at origin
-
-
     all_points = []
 
     for i, (left_rect, right_rect) in enumerate(frame_loader.get_frame_pairs()):
@@ -114,13 +109,14 @@ if __name__ == "__main__":
                 frame_id=i
             )
 
+            
             if R is not None and t is not None:
                 # Accumulate the poses 
-                cumulative_t = cumulative_R @ t + cumulative_t
-                cumulative_R = R @ cumulative_R
+               # cumulative_t = cumulative_R @ t + cumulative_t
+               # cumulative_R = R @ cumulative_R
                 
                 # Plot the cumulative pose
-                visualiser.trajectory_plot(cumulative_R, cumulative_t, i)
+                visualiser.trajectory_plot(R, t, i)
 
 
         # Update for next iteration

@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -14,6 +15,9 @@ class Visualiser:
         # Trajectory plot variables
         self.positions = []
         self.frame_ids = []
+         # Add cumulative pose tracking
+        self.cumulative_R = np.eye(3)  # Start with identity
+        self.cumulative_t = np.zeros(3)  # Start at origin
         self.fig = None
         self.ax = None
         self.trajectory_line = None
@@ -40,7 +44,13 @@ class Visualiser:
         plt.show()
 
     def trajectory_plot(self, R, t, frame_id, real_time=True):
-        camera_position = (-R.T @ t).reshape(-1)
+        
+        # Accumulate the poses 
+        self.cumulative_t = self.cumulative_R @ t + self.cumulative_t
+        self.cumulative_R = R @ self.cumulative_R
+
+
+        camera_position = (-self.cumulative_R.T @ self.cumulative_t).reshape(-1)
         self.positions.append(camera_position)
         self.frame_ids.append(frame_id)
 
