@@ -160,7 +160,7 @@ The pipeline generates:
 
 1. **3D Point Cloud**: Triangulated 3D points from stereo pairs
 2. **Pose Estimates**: Camera poses for each frame via visual odometry
-3. **Visualizations**: 
+3. **Visualisations**: 
    - 3D point cloud scatter plot
    - Stereo feature matches (optional)
 4. **Console Output**: Processing progress and pose estimation results
@@ -213,7 +213,7 @@ plt.show(block=True)  # Force blocking display
 
 The modular design allows easy extensions:
 
-- **Trajectory plotting**: Plot camera motion
+- **Trajectory plotting**: Plot camera motion [DONE]
 - **Loop Closure Detection**: Add descriptor database for place recognition
 - **Bundle Adjustment**: Integrate global optimization
 - **Dense Reconstruction**: Add stereo dense matching
