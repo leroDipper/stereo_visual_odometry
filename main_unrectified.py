@@ -91,11 +91,13 @@ if __name__ == "__main__":
         if pts_3d is None:
             continue
 
-
+        
         all_points.extend(pts_3d)
 
         if visualiser is None:
              visualiser = Visualiser(left_rect, right_rect, output_left['keypoints'], output_right['keypoints'], [])
+
+
 
         # Perform PnP if we have a previous frame
         if previous_output_left is not None:

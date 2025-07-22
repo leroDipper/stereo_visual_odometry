@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 
 
+
 class StereoMatcher:
     def __init__(self, extractor, K_left, K_right, rectifier, top_k=None):
         self.extractor = extractor
         self.K_left = K_left   # Should be rectified matrices
         self.K_right = K_right  # Should be rectified matrices
-        self.rectifier = rectifier
         self.top_k = top_k
 
     def match_frames(self, img_left, img_right):

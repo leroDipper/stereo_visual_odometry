@@ -15,9 +15,9 @@ class Visualiser:
         # Trajectory plot variables
         self.positions = []
         self.frame_ids = []
-         # Add cumulative pose tracking
-        self.cumulative_R = np.eye(3)  # Start with identity
-        self.cumulative_t = np.zeros(3)  # Start at origin
+        # Add cumulative pose tracking - camera pose in world coordinates
+        self.cumulative_R = np.eye(3)  # Start with identity (camera orientation)
+        self.cumulative_t = np.zeros(3)  # Start at origin (camera position)
         self.fig = None
         self.ax = None
         self.trajectory_line = None
@@ -44,13 +44,25 @@ class Visualiser:
         plt.show()
 
     def trajectory_plot(self, R, t, frame_id, real_time=True):
+        """
+        Plot camera trajectory by accumulating poses.
         
-        # Accumulate the poses 
-        self.cumulative_t = self.cumulative_R @ t + self.cumulative_t
-        self.cumulative_R = R @ self.cumulative_R
-
-
-        camera_position = (-self.cumulative_R.T @ self.cumulative_t).reshape(-1)
+        Args:
+            R: Rotation matrix from current frame to previous frame
+            t: Translation vector from current frame to previous frame
+            frame_id: Current frame identifier
+            real_time: Whether to update plot in real-time
+        """
+        # Accumulate poses correctly
+        # The camera position in world coordinates is updated as:
+        # New position = old position + old rotation * relative translation
+        # New rotation = old rotation * relative rotation
+        
+        self.cumulative_t = self.cumulative_t + self.cumulative_R @ t
+        self.cumulative_R = self.cumulative_R @ R
+        
+        # Store camera position (which is the camera's location in world coordinates)
+        camera_position = self.cumulative_t.copy()
         self.positions.append(camera_position)
         self.frame_ids.append(frame_id)
 
@@ -66,14 +78,14 @@ class Visualiser:
             self.current_pos_point, = self.ax.plot([], [], [], 'ro', markersize=6, label="Current Position")
             self.ax.legend()
 
-        if real_time:
+        if real_time and len(self.positions) > 0:
             xs, ys, zs = zip(*self.positions)
             self.trajectory_line.set_data(xs, ys)
             self.trajectory_line.set_3d_properties(zs)
             self.current_pos_point.set_data([xs[-1]], [ys[-1]])
             self.current_pos_point.set_3d_properties([zs[-1]])
             
-            
+            # Auto-scale the plot to fit the trajectory
             if len(self.positions) > 1:
                 # Get the range of your data
                 x_range = max(xs) - min(xs)
@@ -81,7 +93,7 @@ class Visualiser:
                 z_range = max(zs) - min(zs)
                 
                 # Add some padding around your data
-                padding = 0.1  # 10% padding
+                padding = max(x_range, y_range, z_range) * 0.1  # 10% padding
                 x_center = (max(xs) + min(xs)) / 2
                 y_center = (max(ys) + min(ys)) / 2
                 z_center = (max(zs) + min(zs)) / 2
@@ -93,3 +105,15 @@ class Visualiser:
             
             plt.draw()
             plt.pause(0.001)
+
+    def get_final_trajectory(self):
+        """
+        Returns the complete trajectory as numpy arrays.
+        
+        Returns:
+            positions: numpy array of shape (N, 3) containing camera positions
+            frame_ids: list of frame identifiers
+        """
+        if not self.positions:
+            return None, None
+        return np.array(self.positions), self.frame_ids

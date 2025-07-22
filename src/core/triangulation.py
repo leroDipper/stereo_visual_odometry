@@ -1,6 +1,10 @@
+import os
 import numpy as np
 import cv2
 
+global depth_min, depth_max
+depth_min = -12.0
+depth_max = 50.0
 
 def triangulate_point(K_left, K_right, pt_left, pt_right, R, T):
     """
@@ -34,12 +38,11 @@ def triangulate_point(K_left, K_right, pt_left, pt_right, R, T):
     points_3d = points_4d_hom[:3] / points_4d_hom[3]  
     point_3d = points_3d.flatten()
     
-    if point_3d[2] <= 0 or point_3d[2] < 0.1 or point_3d[2] > 50.0:
-        return None
+    #if point_3d[2] <= 0 or point_3d[2] < 0.1 or point_3d[2] > 50.0:
+        #return None
     
     if abs(point_3d[0]) > 50 or abs(point_3d[1]) > 50:
         return None
         
     return point_3d
-
 
